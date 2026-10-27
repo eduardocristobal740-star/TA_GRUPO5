@@ -269,6 +269,10 @@ Tamura, Y.
 
 Tokyo Polytechnic University.
 
+Tokyo Polytechnic University. (s. f.). TPU aerodynamic database [Base de datos]. Recuperado el 27 de octubre de 2026, de https://db.wind.arch.t-kougei.ac.jp/
+
+La fuente primaria corresponde a la TPU Aerodynamic Database de la Tokyo Polytechnic University (s. f.).
+
 # CREDITOS
 
 -GEMINI 3.0 MODO AVANZADO
