@@ -73,26 +73,32 @@ La documentación de los datos distinguirá el modelo geométrico, la dirección
 
 ## Tipos de Datos
 
-### Variables de Entrada
+### Variables de entrada
 
-| Variable | Tipo |
-|-----------|---------|
-| Coordenada X | Numérico continuo |
-| Coordenada Y | Numérico continuo |
-| Coordenada Z | Numérico continuo |
-| Altura del edificio (H) | Numérico continuo |
-| Ancho del edificio (B) | Numérico continuo |
-| Profundidad del edificio (D) | Numérico continuo |
-| Relación H/B | Numérico continuo |
-| Ángulo de incidencia del viento | Numérico continuo |
-| Velocidad de referencia | Numérico continuo |
-| Categoría de terreno | Categórico |
+| Variable | Tipo de dato | Definición | Unidad o referencia |
+|---|---|---|---|
+| Coordenada X | Numérico continuo | Posición del punto de medición respecto al eje X del modelo. | Unidad de longitud y origen definidos en los metadatos del ensayo. |
+| Coordenada Y | Numérico continuo | Posición del punto de medición respecto al eje Y del modelo. | Unidad de longitud y origen definidos en los metadatos del ensayo. |
+| Coordenada Z | Numérico continuo | Posición vertical del punto de medición. | Unidad de longitud y nivel de referencia definidos en el ensayo. |
+| Altura del edificio (H) | Numérico continuo | Dimensión vertical del edificio representado en el ensayo. | Unidad de longitud del modelo, identificando su escala. |
+| Ancho del edificio (B) | Numérico continuo | Dimensión horizontal identificada como ancho en la documentación experimental. | Misma unidad de longitud y escala que H y D. |
+| Profundidad del edificio (D) | Numérico continuo | Dimensión horizontal identificada como profundidad en la documentación experimental. | Misma unidad de longitud y escala que H y B. |
+| Relación H/B | Numérico continuo derivado | Cociente entre la altura y el ancho del edificio. | Adimensional; calculado con dimensiones expresadas en unidades y escalas compatibles. |
+| Ángulo de incidencia del viento | Numérico angular | Orientación del viento respecto a la referencia establecida para el modelo. | Grados, según la convención angular del ensayo. |
+| Velocidad de referencia | Numérico continuo | Velocidad del flujo utilizada como referencia para caracterizar el ensayo y normalizar las presiones. | Unidad de velocidad y altura de referencia indicadas en los metadatos. |
+| Categoría de terreno | Categórico | Clasificación de la exposición o rugosidad del entorno representado experimentalmente. | Categorías establecidas por la fuente, sin unidad física. |
 
-### Variable Objetivo
+### Variable objetivo
 
-| Variable | Tipo |
-|-----------|---------|
-| Coeficiente de Presión ($C_p$) | Numérico continuo |
+| Variable | Tipo de dato | Definición | Unidad o referencia |
+|---|---|---|---|
+| Coeficiente de presión (Cp) | Numérico continuo | Presión relativa normalizada mediante una presión dinámica de referencia. | Adimensional; se identificará si corresponde al valor medio, RMS, máximo, mínimo o instantáneo. |
+
+### Consideraciones sobre las variables
+
+El esquema propuesto considera diez variables de entrada y una variable respuesta. Su disponibilidad y variación se comprobarán en los archivos seleccionados. Las coordenadas, dimensiones y velocidades conservarán las unidades y referencias documentadas por la fuente.
+
+La relación H/B es una variable calculada a partir de la geometría. Las características que permanezcan constantes dentro del conjunto seleccionado se identificarán como condiciones del ensayo y se distinguirán de las variables que aporten información para la predicción.Tipos de Datos
 
 ## Aplicación Estructural
 
@@ -311,3 +317,55 @@ Tokyo Polytechnic University.
 La fuente primaria corresponde a la TPU Aerodynamic Database de la Tokyo Polytechnic University. Este repositorio institucional organiza resultados de ensayos aerodinámicos en diferentes colecciones, entre ellas edificios altos aislados de planta rectangular o cuadrada, edificios de diversas configuraciones y casos de interferencia entre estructuras. La identificación de la colección y de los casos utilizados permitirá vincular las variables del proyecto con sus respectivos registros experimentales.
 
 https://db.wind.arch.t-kougei.ac.jp/
+
+## Bitácora de uso de inteligencia artificial
+
+### Finalidad y herramientas utilizadas
+
+Se utilizaron Gemini y posteriormente Copilot como herramientas de apoyo para la redacción, organización y programación del trabajo. El registro documenta las solicitudes empleadas para preparar el informe inicial y organizar su presentación en el repositorio.
+
+| Herramienta | Uso documentado | Prompts textuales registrados | Refinamientos posteriores al primer prompt |
+|---|---|---:|---:|
+| Gemini | Orientación para elaborar el informe inicial y generación de contenido a partir de información y documentos de la fuente seleccionada. | 3 | 2 |
+| Copilot | Revisión y mejora del informe generado con Gemini y preparación del contenido del README.md. | 2 | 1 |
+| **Total** | **Preparación y organización del contenido inicial.** | **5** | **3** |
+
+### Solicitudes realizadas a Gemini
+
+#### Prompt 1
+
+> Documento (Word o LaTeX): Informe inicial que describa el problema de ingenier´ıa estructural a resolver. Datos: Descripci´on detallada del dataset seleccionado (fuente, cantidad de variables, tipo de datos). Si tienen dificultades, pueden elegir uno de los datasets sugeridos en el Anexo. Marco VDS: Aplicaci´on de los principios de Veridical Data Science (PCS framework) basados en el trabajo de Bin Yu. Deben justificar la predictibilidad, computabilidad y estabilidad esperada de sus datos. Referencia obligatoria: Yu, B., & Barter, R. (2024). Veridical Data Science. MIT Press. https://vdsbook.com/
+>
+> se me pidio realizar eso en gifthub, ya cree el archivo readme y tengo los datos de entrada para buscar el problema de analisis, como debo crear el informe inicial?
+
+#### Prompt 2
+
+> toma en cuenta los siguientes datos para realizar el informe:
+>
+> Descripcion: Base de datos de la Universidad Politecnica de Tokio que contiene series temporales de presiones de viento medidas en tuneles de viento para modelos de edificios de diversas formas y alturas. Aplicacion: Modelos de regresion y analisis de series de tiempo para predecir coeficientes de presion y cargas de viento, evitando simulaciones costosas de dinamica de fluidos computacional (CFD). Enlace: http://wind.arch.t-kougei.ac.jp
+
+#### Prompt 3
+
+> los que tomes hazlo a partir de los pdf contenidos en el enlace que te envie
+
+#### Documentación complementaria
+
+Ante la imposibilidad de consultar directamente los PDF desde el enlace, se adjuntaron los documentos a Gemini. Con esta documentación, la herramienta generó un informe inicial.
+
+### Solicitudes realizadas a Copilot
+
+#### Prompt 1
+
+> El siguiente informe fue creado por gemini, mejoralo en base al pdf cargado, el objetivo es conseguir que cumpla con lo siguientes puntos: PUNTOS SOLICITADOS: -Documento (Word o LaTeX): Informe inicial que describa el problema de ingenierıa estructural a resolver.
+
+Se adjuntaron los PDF de la fuente para apoyar la revisión y mejora del contenido.
+
+#### Prompt 2
+
+> Crea un README.md listo para copiar.
+
+### Alcance del registro
+
+El conteo corresponde a los cinco prompts textuales documentados. La incorporación de archivos PDF se registra como suministro de documentación complementaria y no se contabiliza como un prompt textual adicional.
+
+La revisión realizada con Copilot corresponde a una revisión asistida por IA. Este registro no documenta pruebas de ejecución ni auditorías humanas de código.
