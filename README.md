@@ -269,6 +269,11 @@ Tamura, Y.
 
 Tokyo Polytechnic University.
 
+# CREDITOS
+
+-GEMINI 3.0 MODO AVANZADO
+-COPYLOT EDUCATIVO
+
 Wind Engineering Information Center (WEIC).
 
 Tokyo Polytechnic University.
