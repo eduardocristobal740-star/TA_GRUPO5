@@ -63,6 +63,12 @@ La base de datos incluye:
 - Series temporales de presión.
 - Mediciones experimentales multicanal.
 
+## Organización e interpretación de los datos experimentales
+
+La base aerodinámica de TPU proporciona series temporales de coeficientes de presión en puntos de medición, disponibles en archivos de formato MATLAB (.mat). También presenta resultados estadísticos de los coeficientes locales, entre ellos valores medios, RMS, máximos y mínimos. Estas representaciones contienen información diferente sobre las presiones registradas, por lo que su identificación permite precisar qué magnitud se utilizará como respuesta del modelo predictivo (Tokyo Polytechnic University, s. f.).
+
+La documentación de los datos distinguirá el modelo geométrico, la dirección del viento, los puntos de medición y las muestras temporales de cada registro. Esta distinción resulta necesaria porque múltiples mediciones procedentes de un mismo ensayo no equivalen a experimentos independientes. Asimismo, permitirá relacionar cada observación con sus condiciones experimentales y establecer posteriormente una evaluación predictiva que considere la dependencia entre los registros.
+
 ## Tipos de Datos
 
 ### Variables de Entrada
