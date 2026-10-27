@@ -1,4 +1,4 @@
-<img width="302" height="2268" alt="image" src="https://github.com/user-attachments/assets/0f7c98af-a6ea-4e72-8705-1edee19ddc75" /># TA_GRUPO5
+TA_GRUPO5
 Este repositorio corresponde a la TA del curso IA en Estructuras del Programa de ingeniería de diseño estructural UPC 2026
 # Predicción de Coeficientes de Presión de Viento en Edificaciones mediante Veridical Data Science (VDS)
 
