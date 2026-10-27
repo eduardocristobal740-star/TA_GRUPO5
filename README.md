@@ -141,6 +141,10 @@ Se espera una alta capacidad predictiva debido a que:
 - Los datos fueron obtenidos bajo condiciones experimentales controladas.
 - Existe una relación física directa entre geometría, dirección del viento y presión superficial.
 
+La procedencia experimental de los datos permite plantear una relación predictiva entre las características del edificio, las condiciones del viento y los coeficientes de presión. Sin embargo, las condiciones controladas de los ensayos no garantizan por sí solas un desempeño adecuado en observaciones nuevas. Según Yu y Barter (2024), la evaluación debe utilizar datos reservados que representen el escenario en el que se pretende aplicar el modelo.
+
+En este proyecto, la separación de los datos considerará su procedencia experimental. Si se evalúa la predicción para geometrías nuevas, se reservarán modelos geométricos completos; si se evalúan direcciones del viento no utilizadas durante el entrenamiento, se reservarán direcciones completas dentro de las geometrías estudiadas. Esta planificación permitirá reducir el riesgo de obtener resultados excesivamente optimistas por distribuir mediciones relacionadas entre los conjuntos de entrenamiento y evaluación.
+
 ---
 
 ## 2. Computability (Computabilidad)
