@@ -1,3 +1,99 @@
 # TA_GRUPO5
 Este repositorio corresponde a la TA del curso IA en Estructuras del Programa de ingeniería de diseño estructural UPC 2026
-1. Encabezado y Contexto del ProyectoTítulo del Proyecto: Predicción de Coeficientes de Presión de Viento y Cargas Aerodinámicas mediante Modelos de Series de Tiempo y Regresión (Base de Datos TPU).Objetivo General: Desarrollar modelos predictivos basados en datos experimentales de túnel de viento para estimar las presiones superficiales y coeficientes aerodinámicos ($C_p$) en edificaciones, con el fin de optimizar el diseño estructural y mitigar riesgos de desastres por viento sin recurrir a costosas simulaciones numéricas de Dinámica de Fluidos Computacional (CFD).   2. Descripción del Problema de Ingeniería EstructuralProblemática: Las fuerzas de viento en estructuras altas y complejos urbanos generan fluctuaciones de presión altamente no lineales sobre la envolvente y los elementos de fachada (cladding). Los métodos tradicionales de evaluación dependen de ensayos físicos experimentales complejos o de simulaciones CFD de alto costo computacional y tiempo de procesamiento elevado.Solución Propuesta: Utilizar las series temporales de presión de viento de la base de datos de la TPU para entrenar modelos de regresión y aprendizaje automático capaces de predecir la distribución espacial y temporal de los coeficientes de presión ($C_p$), considerando variables como la dirección del viento ($\theta$), la geometría del edificio y la interferencia de estructuras adyacentes.   3. Descripción Detallada del Dataset (Datos de Entrada de la TPU)Basándote en los estándares de adquisición de datos de los laboratorios de la TPU descritos en la literatura técnica de sus túneles de viento de capa límite:Fuente: Base de datos de ingeniería eólica de la Tokyo Polytechnic University (TPU).   Cantidad de Variables y Observaciones:El dataset contiene registros multivariados de series temporales correspondientes a múltiples tomas de presión (pressure taps) distribuidas en las caras de los modelos a escala (ej. cientos de canales de presión simultáneos).   Parámetros de entrada adicionales: Coordenadas espaciales del punto de medición ($x, y, z$), ángulo de incidencia del flujo de viento ($\theta$ en incrementos típicos de $5^\circ$), relación de aspecto de los edificios ($H/B$), y coeficientes de rugosidad del terreno (capa límite atmosférica simulada).   Tipo de Datos y Frecuencia:Datos numéricos continuos (presiones fluctuantes convertidas a coeficientes adimensionales $C_p$).Frecuencias de muestreo de alta resolución temporal (típicamente muestreadas a altas frecuencias en el túnel, con compensación numérica por efectos de tubería y filtrado mediante promedios móviles).   4. Aplicación del Marco PCS (Veridical Data Science - Yu & Barter, 2024)Para cumplir con el marco VDS exigido en tu curso, debes justificar los tres pilares fundamentales aplicados a tu problema estructural:A. Predictibilidad (Predictability)Validación Cruzada Temporal y Espacial: Evaluar la capacidad de generalización del modelo entrenándolo con geometrías y ángulos de viento específicos, y probándolo en configuraciones o direcciones de viento no vistas (out-of-sample).Métricas de Desempeño: Uso de métricas cuantitativas como la Raíz del Error Cuadrático Medio ($RMSE$), el Error Absoluto Medio ($MAE$) y el coeficiente de determinación ($R^2$) evaluados específicamente sobre la predicción de picos máximos y mínimos de presión ($C_{p,\text{max}}$ y $C_{p,\text{min}}$), que son críticos para el diseño de componentes estructurales.   B. Computabilidad (Computability)Eficiencia Algorítmica y Escalabilidad: Dado que las series temporales de múltiples sensores de presión generan matrices de datos de gran volumen, se debe justificar el uso de arquitecturas de código eficientes en Python (ej. bibliotecas de Machine Learning / Regresión y procesamiento de series temporales).Reproducibilidad en GitHub: Estructuración limpia del repositorio con carpetas para datos (data/), scripts de preprocesamiento (src/), modelos entrenados y un archivo README.md transparente que garantice que cualquier evaluador pueda ejecutar el pipeline analítico completo.C. Estabilidad (Stability)Análisis de Perturbaciones: Verificar qué tan estables son las predicciones del modelo frente a variaciones en los datos de entrada o supuestos de modelado.Perturbación en los datos: Introducción de ruido sintético de medición en las series temporales de presión para comprobar si el modelo mantiene su precisión.Perturbación en la representación: Modificación del paso de tiempo o resolución de muestreo de la serie temporal para evaluar la robustez del algoritmo de regresión frente a fluctuaciones estocásticas del viento.5. Referencia ObligatoriaIncluye al final de tu documento Markdown la cita formal requerida:Yu, B., & Barter, R. (2024). Veridical Data Science. MIT Press. https://vdsbook.com/
+# Predicción de Coeficientes de Presión de Viento en Edificaciones mediante Veridical Data Science (VDS)
+
+## Descripción del Proyecto
+
+Las cargas de viento son una de las acciones más importantes en el diseño estructural de edificios. La estimación incorrecta de estas cargas puede generar daños en fachadas, cubiertas y elementos estructurales, afectando la seguridad y el desempeño de las edificaciones.
+
+Este proyecto propone la aplicación de técnicas de Ciencia de Datos para predecir coeficientes de presión superficial ($C_p$) utilizando datos experimentales obtenidos en túneles de viento de la **Tokyo Polytechnic University (TPU)**.
+
+El análisis se desarrolla siguiendo los principios del marco **Veridical Data Science (VDS)** y la metodología **PCS (Predictability, Computability y Stability)** propuesta por Yu y Barter (2024).
+
+---
+
+# Problema de Ingeniería Estructural
+
+La evaluación de cargas de viento suele realizarse mediante:
+
+- Ensayos experimentales en túneles de viento.
+- Simulaciones CFD (Computational Fluid Dynamics).
+- Procedimientos normativos.
+
+Sin embargo, estas metodologías presentan altos costos computacionales y experimentales.
+
+El objetivo de este proyecto es desarrollar un modelo predictivo capaz de estimar coeficientes de presión aerodinámica a partir de variables geométricas y condiciones de viento, reduciendo la necesidad de realizar simulaciones complejas para cada nueva configuración estructural.
+
+---
+
+# Objetivos
+
+## Objetivo General
+
+Desarrollar modelos predictivos basados en datos experimentales de túnel de viento para estimar coeficientes de presión en edificaciones.
+
+## Objetivos Específicos
+
+- Analizar las variables aerodinámicas disponibles en la base de datos seleccionada.
+- Implementar modelos de aprendizaje automático para la predicción de $C_p$.
+- Evaluar el desempeño de los modelos mediante métricas estadísticas.
+- Aplicar el marco PCS para garantizar resultados reproducibles y confiables.
+- Analizar la estabilidad de las predicciones frente a perturbaciones en los datos.
+
+---
+
+# Dataset
+
+## Fuente
+
+Wind Engineering Information Center (WEIC)
+
+Tokyo Polytechnic University (TPU)
+
+## Descripción
+
+El conjunto de datos proviene de experimentos realizados en túneles de viento atmosféricos y contiene mediciones de presión superficial sobre modelos de edificios sometidos a distintas condiciones aerodinámicas.
+
+La base de datos incluye:
+
+- Edificios aislados.
+- Edificios altos.
+- Conjuntos de edificios.
+- Casos de interferencia entre estructuras.
+- Series temporales de presión.
+- Mediciones experimentales multicanal.
+
+## Tipos de Datos
+
+### Variables de Entrada
+
+| Variable | Tipo |
+|-----------|---------|
+| Coordenada X | Numérico continuo |
+| Coordenada Y | Numérico continuo |
+| Coordenada Z | Numérico continuo |
+| Altura del edificio (H) | Numérico continuo |
+| Ancho del edificio (B) | Numérico continuo |
+| Profundidad del edificio (D) | Numérico continuo |
+| Relación H/B | Numérico continuo |
+| Ángulo de incidencia del viento | Numérico continuo |
+| Velocidad de referencia | Numérico continuo |
+| Categoría de terreno | Categórico |
+
+### Variable Objetivo
+
+| Variable | Tipo |
+|-----------|---------|
+| Coeficiente de Presión ($C_p$) | Numérico continuo |
+
+## Aplicación Estructural
+
+Los coeficientes de presión permiten calcular las presiones de diseño mediante:
+
+$$
+P=qC_p
+$$
+
+donde:
+
+- $P$ = presión de
