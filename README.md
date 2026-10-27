@@ -24,6 +24,8 @@ Sin embargo, estas metodologías presentan altos costos computacionales y experi
 
 El objetivo de este proyecto es desarrollar un modelo predictivo capaz de estimar coeficientes de presión aerodinámica a partir de variables geométricas y condiciones de viento, reduciendo la necesidad de realizar simulaciones complejas para cada nueva configuración estructural.
 
+El aprovechamiento de bases aerodinámicas experimentales cuenta con aplicaciones documentadas en ingeniería estructural. Park et al. (2019) utilizaron registros de presión de la Tokyo Polytechnic University mediante el enfoque de diseño asistido por bases de datos para analizar la respuesta de un edificio alto ante diferentes direcciones del viento. Evaluaron momentos de vuelco e índices de demanda-capacidad de elementos estructurales. Este antecedente respalda la pertinencia de utilizar los registros de TPU para estudiar acciones del viento y destaca la importancia de conservar la relación entre las presiones, la geometría y la dirección de incidencia. Su aplicación al aprendizaje automático requiere una evaluación predictiva específica.
+
 ---
 
 # Objetivos
@@ -112,6 +114,10 @@ Estos valores son utilizados en:
 - Diseño de cubiertas.
 - Evaluación de cargas laterales.
 - Verificación de normativas estructurales.
+
+Los coeficientes de presión caracterizan la acción aerodinámica sobre las superficies del edificio. Su utilización para evaluar la respuesta estructural requiere integrar esta información con las propiedades mecánicas y dinámicas de la edificación. Park et al. (2019) combinaron registros experimentales de presión con información del sistema estructural para determinar momentos de vuelco y demandas en elementos, considerando efectos dinámicos y de segundo orden.
+
+En el presente proyecto, las predicciones constituirán información de apoyo para estudiar la distribución de los coeficientes de presión bajo las condiciones representadas en los datos. Su interpretación considerará las geometrías, direcciones del viento y condiciones experimentales utilizadas. La extensión de los resultados a configuraciones distintas requerirá una validación adicional, mientras que su incorporación al diseño estructural deberá considerar los demás parámetros y verificaciones correspondientes.
 
 ---
 
@@ -209,6 +215,10 @@ La estabilidad evalúa la robustez de las conclusiones frente a perturbaciones r
 
 Si pequeñas perturbaciones en los datos producen cambios reducidos en las métricas de desempeño y en la importancia de las variables, las conclusiones serán consideradas estables.
 
+La estabilidad se examinará mediante cambios razonables en la selección de ensayos, las particiones de evaluación y las decisiones de preprocesamiento. El remuestreo considerará la dependencia entre las mediciones: cuando se utilicen series temporales, se emplearán bloques que conserven su estructura temporal; cuando se comparen ensayos, se mantendrá identificada su procedencia experimental. La incorporación de ruido requerirá justificar las variables afectadas y la magnitud de la perturbación.
+
+Se comparará la variación de las predicciones y de las métricas de desempeño entre los escenarios considerados. Además de los indicadores globales, se revisará si las diferencias se concentran en determinadas geometrías, direcciones del viento o puntos de medición. Esto permitirá identificar las condiciones en las que las conclusiones sean sensibles a las decisiones del análisis y delimitar el alcance de aplicación del modelo, siguiendo el principio de estabilidad de Yu y Barter (2024).
+
 ---
 
 # Documentación PCS
@@ -286,6 +296,8 @@ Tokyo Polytechnic University.
 Tokyo Polytechnic University. (s. f.). TPU aerodynamic database [Base de datos]. Recuperado el 27 de octubre de 2026, de https://db.wind.arch.t-kougei.ac.jp/
 
 La fuente primaria corresponde a la TPU Aerodynamic Database de la Tokyo Polytechnic University (s. f.).
+
+Park, S., Duthinh, D., Simiu, E., & Yeo, D. (2019). Wind effects on a tall building with square cross-section and mid-side base columns: Database-assisted design approach. Journal of Structural Engineering, 145(5), Article 06019001. https://doi.org/10.1061/(ASCE)ST.1943-541X.0002328
 
 # CREDITOS
 
