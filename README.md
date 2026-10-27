@@ -277,3 +277,7 @@ Tokyo Polytechnic University.
 Wind Engineering Information Center (WEIC).
 
 Tokyo Polytechnic University.
+
+La fuente primaria corresponde a la TPU Aerodynamic Database de la Tokyo Polytechnic University. Este repositorio institucional organiza resultados de ensayos aerodinámicos en diferentes colecciones, entre ellas edificios altos aislados de planta rectangular o cuadrada, edificios de diversas configuraciones y casos de interferencia entre estructuras. La identificación de la colección y de los casos utilizados permitirá vincular las variables del proyecto con sus respectivos registros experimentales.
+
+https://db.wind.arch.t-kougei.ac.jp/
