@@ -181,6 +181,10 @@ Análisis de Resultados
 
 El volumen de datos puede ser procesado mediante equipos convencionales disponibles en entornos universitarios, permitiendo la implementación eficiente de modelos predictivos.
 
+La viabilidad computacional se comprobará considerando el tamaño de los archivos seleccionados, las dimensiones de sus matrices y los recursos disponibles para el procesamiento. En los registros de presión se distinguirán los puntos de medición y las muestras temporales, debido a que ambos determinan el volumen de información que deberá manejarse. Si el conjunto supera la memoria disponible, el procesamiento se organizará por archivos o lotes.
+
+Para facilitar la reproducción del análisis, se documentarán la versión de Python, las bibliotecas utilizadas, las características del equipo y las operaciones aplicadas a los datos. Los archivos originales se conservarán separados de los datos transformados, manteniendo la correspondencia entre cada resultado y su ensayo de procedencia. Estas decisiones permitirán evaluar la factibilidad del procedimiento y repetirlo bajo condiciones computacionales identificables, en concordancia con el marco PCS de Yu y Barter (2024).
+
 ---
 
 ## 3. Stability (Estabilidad)
