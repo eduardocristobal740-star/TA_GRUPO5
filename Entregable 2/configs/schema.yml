@@ -1,0 +1,19 @@
+# Modifique estos alias después de ejecutar inspect_mat.
+features: [H, B, D, H_B, theta, X, Y, Z]
+targets: [cp_mean, cp_rms, cp_min, cp_max]
+group_column: geometry_id
+random_state: 42
+test_size: 0.20
+cv_splits: 5
+batch_rows: 50000
+aliases:
+  cp: [cp, Cp, pressure_coefficients, Wind_pressure_coefficients]
+  H: [H, height]
+  B: [B, breadth, width]
+  D: [D, depth]
+  theta: [theta, angle, wind_direction, WindDir]
+  X: [X, x]
+  Y: [Y, y]
+  Z: [Z, z]
+  sensor_id: [sensor_id, tap_id, tap]
+  geometry_id: [geometry_id, model_id, case_id]

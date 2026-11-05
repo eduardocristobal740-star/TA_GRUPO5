@@ -1,0 +1,13 @@
+[build-system]
+requires=["setuptools>=68"]
+build-backend="setuptools.build_meta"
+[project]
+name="tpu-cp-ml"
+version="0.1.0"
+description="Modelos agrupados para Cp de la base TPU"
+requires-python=">=3.10"
+dynamic=["dependencies"]
+[tool.setuptools.dynamic]
+dependencies={file=["requirements.txt"]}
+[tool.setuptools.packages.find]
+where=["src"]
