@@ -192,7 +192,92 @@ Los siete nombres de archivo identifican direcciones del viento; no
 constituyen siete geometrías diferentes. Si se trabaja con esta selección,
 debe definirse una validación angular o espacial acorde con ese alcance.
 
-## 11. Reproducción del análisis inicial
+
+## 11. Plan de algoritmos y justificación
+
+El problema se formula como **regresión multisalida** para estimar, por cada combinación sensor-ángulo, `cp_mean`, `cp_rms`, `cp_min` y `cp_max`. Debido a que los 896 registros proceden de 128 sensores medidos en siete direcciones sobre una sola geometría, la evaluación debe evitar una partición aleatoria que coloque observaciones relacionadas en entrenamiento y prueba.
+
+### Algoritmos propuestos
+
+| Modelo | Función en el estudio | Justificación para el problema estructural |
+|---|---|---|
+| `DummyRegressor` | Línea base | Permite comprobar que los modelos aprendan una relación útil y no solo reproduzcan la media o mediana de cada coeficiente. |
+| Regresión lineal regularizada (`Ridge`) | Modelo interpretable de referencia | Cuantifica relaciones globales y ofrece un punto de comparación transparente. La regularización reduce la inestabilidad por variables correlacionadas o codificaciones redundantes. |
+| `RandomForestRegressor` | Modelo no lineal principal | Captura interacciones entre posición del sensor, superficie y dirección del viento sin imponer una forma funcional. Es robusto frente a escalas distintas y permite calcular importancia por permutación. |
+| `ExtraTreesRegressor` | Modelo de árboles alternativo | Introduce mayor aleatoriedad en los cortes y permite evaluar si las conclusiones permanecen estables ante otra estrategia de ensamble. |
+| `HistGradientBoostingRegressor` o `GradientBoostingRegressor` | Modelo de boosting | Puede representar gradientes espaciales y cambios no lineales de presión mediante la combinación secuencial de árboles. Debe ajustarse con regularización para limitar el sobreajuste. |
+
+### Algoritmos no prioritarios en esta etapa
+
+- **Red neuronal:** no se adopta como modelo principal porque existen solo 896 registros resumidos, relacionados entre sí, y una única geometría. Podría evaluarse cuando se incorporen más geometrías y ensayos independientes, usando regularización, parada temprana y validación externa.
+- **Análisis de clústeres:** se reserva como análisis exploratorio, por ejemplo, para agrupar sensores con patrones semejantes de `cp_mean`, `cp_rms`, `cp_min` y `cp_max`. No reemplaza la regresión porque no genera directamente una predicción continua de Cp.
+- **XGBoost:** es una extensión opcional si la dependencia se agrega en `requirements.txt` y se documentan versión e hiperparámetros. No es indispensable para cumplir el objetivo cuando ya se comparan ensambles de árboles de `scikit-learn`.
+
+### Variables predictoras y preparación
+
+Las variables disponibles deben limitarse a las verificadas en los MAT y en la tabla consolidada. Para esta selección se consideran:
+
+- ángulo del viento, representado preferiblemente mediante `sin(ángulo)` y `cos(ángulo)` para respetar su naturaleza circular;
+- coordenadas disponibles del punto de medición;
+- identificador de superficie, codificado como variable categórica;
+- identificador del sensor, solo si el objetivo es interpolar sobre la misma instrumentación y nunca como sustituto de la posición física;
+- H, B, D y H/B únicamente como metadatos, porque son constantes en la geometría actual y no aportan variación predictiva.
+
+No deben usarse como variables de entrada estadísticas derivadas de la misma serie que revelen el objetivo. Por ejemplo, al predecir `cp_min` no se utilizarán `cp_mean`, `cp_rms` o `cp_max` salvo que el escenario de aplicación garantice que esos valores estarán disponibles y se documente explícitamente ese supuesto.
+
+### Estrategia de validación
+
+1. **Validación angular:** usar `GroupKFold` o `LeaveOneGroupOut` con el ángulo como grupo. Cada pliegue reserva direcciones completas y estima la capacidad de predecir un ángulo no utilizado en el ajuste.
+2. **Validación espacial complementaria:** agrupar sensores o regiones espaciales y reservar grupos completos para medir la capacidad de interpolación espacial.
+3. **Validación por geometría:** no puede realizarse con la selección actual. Requiere incorporar varias geometrías experimentales y reservar geometrías completas como prueba externa.
+4. Ajustar preprocesamiento e hiperparámetros solo con los datos de entrenamiento de cada pliegue, mediante `Pipeline`, para prevenir fuga de información.
+5. Fijar `random_state` y publicar versiones, hiperparámetros y grupos usados para que los resultados sean reproducibles.
+
+## 12. Resultados previstos y métricas de éxito
+
+Las métricas se reportarán **por variable objetivo**, por pliegue y de forma agregada. No se debe declarar una “predicción precisa” antes de ejecutar la validación.
+
+| Métrica | Interpretación | Criterio de uso |
+|---|---|---|
+| MAE | Error absoluto medio en unidades adimensionales de Cp | Métrica principal por su interpretación directa y menor sensibilidad a valores extremos. |
+| RMSE | Penaliza con mayor intensidad errores grandes | Relevante para identificar fallos importantes en zonas de succión o presión crítica. |
+| R² | Fracción de variabilidad explicada respecto a una predicción constante | Se informa como complemento. Puede ser negativo en prueba y no debe interpretarse de forma aislada. |
+| Error máximo absoluto | Mayor desviación observada | Control complementario para detectar un error local potencialmente crítico. |
+| Sesgo medio | Promedio de `predicción - observación` | Permite detectar sobreestimación o subestimación sistemática de los coeficientes. |
+
+El modelo seleccionado deberá cumplir simultáneamente los siguientes criterios:
+
+- superar al `DummyRegressor` en MAE y RMSE en la mayoría de los pliegues;
+- mantener MAE, RMSE y R² consistentes entre direcciones reservadas, informando media y desviación estándar;
+- presentar residuos sin un sesgo sistemático evidente por ángulo, superficie o sensor;
+- conservar conclusiones similares al variar la semilla, el algoritmo y decisiones razonables de preprocesamiento;
+- documentar por separado el desempeño de `cp_mean`, `cp_rms`, `cp_min` y `cp_max`, porque los extremos pueden ser más difíciles de predecir que la media.
+
+No se fija un umbral numérico universal de aceptación antes de observar la variabilidad experimental y la tolerancia de la aplicación estructural. El primer criterio cuantitativo será la mejora frente a la línea base; cualquier umbral de ingeniería deberá justificarse con el uso previsto de Cp y con la normativa o criterio de diseño aplicable.
+
+### Productos previstos
+
+- tabla comparativa de MAE, RMSE, R², error máximo y sesgo por modelo y objetivo;
+- gráficos observado frente a predicho con línea 1:1;
+- distribución de residuos por ángulo y superficie;
+- importancia por permutación con variabilidad entre pliegues;
+- análisis de estabilidad frente a semillas, particiones por grupos y modelos alternativos;
+- archivo serializado del mejor flujo solo después de completar la validación.
+
+## 13. Verificación de cumplimiento del encargo
+
+| Requisito | Evidencia en este README | Estado |
+|---|---|---|
+| Verificar la calidad de los datos | Inventario, nulos, infinitos, duplicados, consistencia de ubicaciones y tamaño de las matrices | Cumple |
+| Limpieza y manejo de valores nulos | Se verifican nulos e infinitos; el script de limpieza genera la tabla consolidada | Cumple; debe conservarse la política explícita de no imputar cuando no hay faltantes |
+| Análisis de correlación | Matriz de Spearman y salida de Pearson del script | Cumple |
+| Visualización inicial | Gráficos de promedio, distribución y correlación generados en `outputs/` | Cumple si los PNG se publican en el repositorio |
+| Uso de Pandas, Matplotlib y Seaborn | Flujo reproducible y dependencias del proyecto | Cumple si `requirements.txt` fija las versiones y el script importa las bibliotecas declaradas |
+| Algoritmos y justificación | Línea base, Ridge, Random Forest, Extra Trees y Gradient Boosting, con alcance de redes y clústeres | Cumple |
+| Métricas previstas | MAE, RMSE, R², error máximo, sesgo y estabilidad entre pliegues | Cumple |
+| Resultados ejecutados | El estado actual declara pendientes las salidas del modelado | Pendiente; no deben presentarse métricas simuladas |
+
+## 14. Reproducción del análisis inicial
 
 Desde la raíz del repositorio:
 
@@ -238,7 +323,19 @@ print(correlacion.round(4).to_string())
 Los módulos generales de `src/tpu_cp/` requieren revisar la correspondencia
 de variables y la representación espacial antes de utilizarlos con estos MAT.
 
-## 12. Documentación complementaria
+## 15. Bibliografía
+
+- Breiman, L. (2001). Random forests. *Machine Learning, 45*, 5-32. https://doi.org/10.1023/A:1010933404324
+- Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. *The Annals of Statistics, 29*(5), 1189-1232. https://doi.org/10.1214/aos/1013203451
+- Geurts, P., Ernst, D., & Wehenkel, L. (2006). Extremely randomized trees. *Machine Learning, 63*, 3-42. https://doi.org/10.1007/s10994-006-6226-1
+- McKinney, W. (2010). Data structures for statistical computing in Python. En *Proceedings of the 9th Python in Science Conference* (pp. 56-61). https://doi.org/10.25080/Majora-92bf1922-00a
+- Park, S., Duthinh, D., Simiu, E., & Yeo, D. (2019). Wind effects on a tall building with square cross-section and mid-side base columns: Database-assisted design approach. *Journal of Structural Engineering, 145*(5), 06019001. https://doi.org/10.1061/(ASCE)ST.1943-541X.0002328
+- Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research, 12*, 2825-2830. https://jmlr.org/papers/v12/pedregosa11a.html
+- Tokyo Polytechnic University. (s. f.). *TPU Aerodynamic Database*. Wind Engineering Information Center. https://db.wind.arch.t-kougei.ac.jp/
+- Waskom, M. L. (2021). seaborn: Statistical data visualization. *Journal of Open Source Software, 6*(60), 3021. https://doi.org/10.21105/joss.03021
+- Yu, B., & Barter, R. L. (2024). *Veridical Data Science: The Practice of Responsible Data Analysis and Decision Making*. MIT Press. https://vdsbook.com/
+
+## 16. Documentación complementaria
 
 - [Bitácora de uso de IA](BITACORA_IA.md)
 - [Referencias del proyecto](REFERENCIAS.md)
@@ -247,3 +344,4 @@ de variables y la representación espacial antes de utilizarlos con estos MAT.
 Las tablas descriptivas se presentan directamente en Markdown.
 Los resultados predictivos se incorporarán después de ejecutar y validar
 el flujo correspondiente.
+
