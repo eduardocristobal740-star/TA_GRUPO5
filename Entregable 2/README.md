@@ -21,7 +21,7 @@ geometría. Las tablas se calcularon a partir de los MAT de `data/raw/`.
 | `Prediccion_coeficientes.ipynb` | Estructura del laboratorio y fragmentos del flujo predictivo |
 | `src/tpu_cp/` | Módulos del flujo general propuesto |
 | `configs/schema.yml` | Configuración del procesamiento general |
-| `requirements.txt` | Dependencias |
+| `requirements.txt` | Dependencias reproducibles para lectura de MAT, EDA, visualización y modelado |
 | `BITACORA_IA.md` | Registro del uso de inteligencia artificial |
 | `REFERENCIAS.md` | Referencias del proyecto |
 
@@ -193,7 +193,38 @@ constituyen siete geometrías diferentes. Si se trabaja con esta selección,
 debe definirse una validación angular o espacial acorde con ese alcance.
 
 
-## 11. Plan de algoritmos y justificación
+## 11. Dependencias del entorno
+
+El proyecto utiliza **NumPy**, **Pandas**, **SciPy**, **Scikit-learn**, **PyArrow**, **Joblib**, **PyYAML**, **mat73**, **h5py**, **Matplotlib** y **Seaborn**. Esta última dependencia es necesaria para los mapas de calor de correlación y otras visualizaciones estadísticas del EDA.
+
+El contenido recomendado de `requirements.txt` es:
+
+```txt
+numpy>=1.26,<3.0
+pandas>=2.1,<3.0
+scipy>=1.11,<2.0
+scikit-learn>=1.4,<2.0
+pyarrow>=14,<20
+joblib>=1.3,<2.0
+PyYAML>=6.0,<7.0
+mat73>=0.63,<1.0
+h5py>=3.10,<4.0
+matplotlib>=3.8,<4.0
+seaborn>=0.13,<1.0
+```
+
+Los límites inferiores garantizan las funcionalidades utilizadas por el proyecto y los límites superiores reducen el riesgo de incompatibilidades por cambios mayores. Si el notebook se ejecuta localmente en Visual Studio Code, pueden añadirse opcionalmente `jupyter>=1.0` e `ipykernel>=6.29`; no son necesarios si se usa Google Colab o un entorno que ya incluya soporte para notebooks.
+
+Para instalar y verificar el entorno:
+
+```bash
+python -m pip install -r requirements.txt
+python -c "import numpy, pandas, scipy, sklearn, matplotlib, seaborn; print('Dependencias instaladas correctamente')"
+```
+
+No se incluyen `xgboost`, `tensorflow` ni `torch` en esta etapa, porque el plan principal utiliza modelos disponibles en `scikit-learn` y la base actual contiene 896 registros resumidos de una sola geometría. Estas dependencias solo deben agregarse si los algoritmos correspondientes se implementan y validan realmente.
+
+## 12. Plan de algoritmos y justificación
 
 El problema se formula como **regresión multisalida** para estimar, por cada combinación sensor-ángulo, `cp_mean`, `cp_rms`, `cp_min` y `cp_max`. Debido a que los 896 registros proceden de 128 sensores medidos en siete direcciones sobre una sola geometría, la evaluación debe evitar una partición aleatoria que coloque observaciones relacionadas en entrenamiento y prueba.
 
@@ -233,7 +264,7 @@ No deben usarse como variables de entrada estadísticas derivadas de la misma se
 4. Ajustar preprocesamiento e hiperparámetros solo con los datos de entrenamiento de cada pliegue, mediante `Pipeline`, para prevenir fuga de información.
 5. Fijar `random_state` y publicar versiones, hiperparámetros y grupos usados para que los resultados sean reproducibles.
 
-## 12. Resultados previstos y métricas de éxito
+## 13. Resultados previstos y métricas de éxito
 
 Las métricas se reportarán **por variable objetivo**, por pliegue y de forma agregada. No se debe declarar una “predicción precisa” antes de ejecutar la validación.
 
@@ -264,7 +295,7 @@ No se fija un umbral numérico universal de aceptación antes de observar la var
 - análisis de estabilidad frente a semillas, particiones por grupos y modelos alternativos;
 - archivo serializado del mejor flujo solo después de completar la validación.
 
-## 13. Verificación de cumplimiento del encargo
+## 14. Verificación de cumplimiento del encargo
 
 | Requisito | Evidencia en este README | Estado |
 |---|---|---|
@@ -272,12 +303,12 @@ No se fija un umbral numérico universal de aceptación antes de observar la var
 | Limpieza y manejo de valores nulos | Se verifican nulos e infinitos; el script de limpieza genera la tabla consolidada | Cumple; debe conservarse la política explícita de no imputar cuando no hay faltantes |
 | Análisis de correlación | Matriz de Spearman y salida de Pearson del script | Cumple |
 | Visualización inicial | Gráficos de promedio, distribución y correlación generados en `outputs/` | Cumple si los PNG se publican en el repositorio |
-| Uso de Pandas, Matplotlib y Seaborn | Flujo reproducible y dependencias del proyecto | Cumple si `requirements.txt` fija las versiones y el script importa las bibliotecas declaradas |
+| Uso de Pandas, Matplotlib y Seaborn | Sección de dependencias, flujo reproducible y scripts del EDA | Cumple con el contenido recomendado de `requirements.txt`; debe verificarse que el archivo del repositorio incluya `seaborn>=0.13,<1.0` |
 | Algoritmos y justificación | Línea base, Ridge, Random Forest, Extra Trees y Gradient Boosting, con alcance de redes y clústeres | Cumple |
 | Métricas previstas | MAE, RMSE, R², error máximo, sesgo y estabilidad entre pliegues | Cumple |
 | Resultados ejecutados | El estado actual declara pendientes las salidas del modelado | Pendiente; no deben presentarse métricas simuladas |
 
-## 14. Reproducción del análisis inicial
+## 15. Reproducción del análisis inicial
 
 Desde la raíz del repositorio:
 
@@ -323,7 +354,7 @@ print(correlacion.round(4).to_string())
 Los módulos generales de `src/tpu_cp/` requieren revisar la correspondencia
 de variables y la representación espacial antes de utilizarlos con estos MAT.
 
-## 15. Bibliografía
+## 16. Bibliografía
 
 - Breiman, L. (2001). Random forests. *Machine Learning, 45*, 5-32. https://doi.org/10.1023/A:1010933404324
 - Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. *The Annals of Statistics, 29*(5), 1189-1232. https://doi.org/10.1214/aos/1013203451
@@ -335,7 +366,7 @@ de variables y la representación espacial antes de utilizarlos con estos MAT.
 - Waskom, M. L. (2021). seaborn: Statistical data visualization. *Journal of Open Source Software, 6*(60), 3021. https://doi.org/10.21105/joss.03021
 - Yu, B., & Barter, R. L. (2024). *Veridical Data Science: The Practice of Responsible Data Analysis and Decision Making*. MIT Press. https://vdsbook.com/
 
-## 16. Documentación complementaria
+## 17. Documentación complementaria
 
 - [Bitácora de uso de IA](BITACORA_IA.md)
 - [Referencias del proyecto](REFERENCIAS.md)
@@ -344,4 +375,3 @@ de variables y la representación espacial antes de utilizarlos con estos MAT.
 Las tablas descriptivas se presentan directamente en Markdown.
 Los resultados predictivos se incorporarán después de ejecutar y validar
 el flujo correspondiente.
-
