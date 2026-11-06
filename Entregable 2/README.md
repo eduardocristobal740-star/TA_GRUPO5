@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.4%2B-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 [![Norma](https://img.shields.io/badge/Perú-RNE%20E.020-red)](https://www.gob.pe/institucion/sencico/informes-publicaciones/887225-normas-del-reglamento-nacional-de-edificaciones-rne)
-[![Uso](https://img.shields.io/badge/Uso-educativo-brightgreen)](#alcance-y-advertencia-de-uso)
+
 
 ## Resumen
 
