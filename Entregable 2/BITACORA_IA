@@ -1,0 +1,290 @@
+# Bitácora de uso de inteligencia artificial — Entregable 2
+
+## 1. Información general
+
+| Campo | Descripción |
+|---|---|
+| Proyecto | Predicción de coeficientes de presión superficial con datos TPU |
+| Equipo | Grupo 5 |
+| Fuente | Tokyo Polytechnic University Aerodynamic Database |
+| Problema | Regresión supervisada |
+| Variables objetivo propuestas | cp_mean, cp_rms, cp_min y cp_max |
+| Asistente del registro original | Microsoft Copilot, según la bitácora previa |
+| Asistente de la revisión documental | ChatGPT |
+| Entorno | Python, Visual Studio Code y Jupyter Notebook |
+| Repositorio | TA_GRUPO5 |
+| Fecha de revisión documental | 5 de noviembre de 2026 |
+
+## 2. Criterio de registro
+
+Esta bitácora organiza las consultas realizadas a la inteligencia artificial,
+las propuestas recibidas, las decisiones adoptadas y las evidencias relacionadas.
+
+Los cinco primeros registros proceden de la bitácora original. Sus fechas
+no fueron consignadas. Los prompts se presentan como síntesis y no como
+transcripciones literales.
+
+La presencia de código se distingue de su ejecución y validación. Una
+propuesta metodológica no se considera un resultado experimental.
+
+## 3. Resumen de intervenciones
+
+| Registro | Propósito | Evidencia relacionada |
+|---|---|---|
+| IA-01 | Revisar el planteamiento y la metodología | README.md, REFERENCIAS.md y src/tpu_cp/ |
+| IA-02 | Incorporar EDA e interpretabilidad | eda.py y visualize.py |
+| IA-03 | Adaptar el laboratorio al problema TPU | Prediccion_coeficientes.ipynb |
+| IA-04 | Organizar la publicación en GitHub | Estructura del entregable |
+| IA-05 | Incorporar el notebook mediante Git | Prediccion_coeficientes.ipynb |
+| IA-06 | Refinar la bitácora y sustituir imágenes por tablas | BITACORA_IA.md y README.md |
+
+## 4. Registro de intervenciones
+
+### IA-01. Planteamiento del problema y metodología
+
+**Fecha:** no consignada en el registro original.
+
+**Propósito:** adaptar el proyecto a la predicción de coeficientes de presión
+superficial y atender las observaciones del docente.
+
+**Prompt registrado —síntesis—:**
+
+> Revisar la bibliografía y desarrollar un proyecto de aprendizaje automático
+> que estime los coeficientes de presión superficial mediante variables
+> geométricas, aerodinámicas y espaciales de ensayos TPU. Incorporar
+> interpretabilidad y preparar el código para GitHub.
+
+**Respuesta resumida:**
+
+La IA propuso cuatro variables objetivo, procesamiento de archivos
+experimentales, modelos tabulares, validación agrupada, importancia
+por permutación y análisis de estabilidad.
+
+| Decisión | Justificación |
+|---|---|
+| Aceptar cuatro objetivos separados | La presión media, la fluctuación y los extremos representan aspectos diferentes de las series. |
+| Aceptar modelos tabulares como primera aproximación | Permiten establecer una referencia antes de implementar modelos de mayor complejidad. |
+| Condicionar la validación por geometría | Requiere varias geometrías reales identificadas correctamente. |
+| Condicionar las referencias incompletas | Deben verificarse antes de incorporarse como bibliografía definitiva. |
+| Mantener GNN y FNO como extensiones | Requieren datos y representaciones espaciales adecuados. |
+
+**Evidencia relacionada:** `src/tpu_cp/`, `configs/schema.yml` y
+`REFERENCIAS.md`.
+
+**Estado verificado:** existen módulos para el flujo propuesto. Los siete
+MAT publicados corresponden a una misma geometría; sus ángulos no deben
+considerarse geometrías independientes.
+
+---
+
+### IA-02. Análisis exploratorio e interpretabilidad
+
+**Fecha:** no consignada en el registro original.
+
+**Propósito:** incorporar herramientas para revisar los datos e interpretar
+posteriormente los modelos.
+
+**Prompt registrado —síntesis—:**
+
+> Añadir gráficos EDA y visualizaciones de importancia de variables,
+> con documentación compatible con Markdown de GitHub.
+
+**Respuesta resumida:**
+
+La IA propuso histogramas, análisis de datos faltantes, correlaciones,
+variación angular, distribución espacial, importancia por permutación
+y comparación entre valores observados y predichos.
+
+| Decisión | Justificación |
+|---|---|
+| Aceptar estadísticas descriptivas y control de datos faltantes | Permiten revisar la calidad y distribución de los datos. |
+| Aceptar correlaciones de Spearman | Permiten explorar asociaciones monótonas. |
+| Aceptar la importancia por permutación como análisis posterior | Permite medir el cambio del error al permutar una variable. |
+| Condicionar las figuras de resultados | Requieren ejecución y publicación de los archivos generados. |
+| Sustituir las imágenes ausentes por tablas | Permite presentar información comprobable directamente en el README. |
+
+**Evidencia relacionada:** `src/tpu_cp/eda.py`,
+`src/tpu_cp/visualize.py` y `README.md`.
+
+**Estado verificado:** las diez imágenes enlazadas por el README original
+no estaban publicadas en sus rutas. La revisión documental las reemplaza
+por tablas descriptivas y por el estado de los análisis pendientes.
+
+---
+
+### IA-03. Elaboración del notebook
+
+**Fecha:** no consignada en el registro original.
+
+**Propósito:** adaptar la estructura del laboratorio de regresión al estudio
+de presiones superficiales.
+
+**Prompt registrado —síntesis—:**
+
+> Adaptar el laboratorio de predicción de resistencia del hormigón al problema
+> TPU, incorporando carga de datos, EDA, entrenamiento, evaluación e
+> importancia de variables.
+
+**Respuesta resumida:**
+
+La IA propuso un notebook con descripción del problema, control de calidad,
+modelo de referencia, Random Forest, métricas, validación, interpretabilidad,
+estabilidad y preguntas de reflexión.
+
+| Decisión | Justificación |
+|---|---|
+| Aceptar una estructura progresiva | Facilita seguir el recorrido desde los datos hasta la interpretación. |
+| Aceptar MAE, RMSE y R² | Permiten evaluar diferentes aspectos del desempeño predictivo. |
+| Condicionar la división agrupada | Debe corresponder al objetivo de generalización y a los datos disponibles. |
+| Mantener la revisión física de las conclusiones | Una asociación predictiva no demuestra causalidad. |
+
+**Evidencia relacionada:** `Prediccion_coeficientes.ipynb`.
+
+**Estado verificado:** el notebook publicado contiene 62 celdas Markdown
+y ninguna salida ejecutada. Los fragmentos Python deben convertirse
+en celdas de código y revisarse antes de ejecutar el flujo.
+
+---
+
+### IA-04. Organización y publicación del repositorio
+
+**Fecha:** no consignada en el registro original.
+
+**Propósito:** organizar los archivos del proyecto y publicarlos en GitHub.
+
+**Prompt registrado —síntesis—:**
+
+> Explicar cómo publicar el proyecto en GitHub y aclarar si era necesario
+> copiar nuevamente el README o subir los archivos existentes.
+
+**Respuesta resumida:**
+
+La IA explicó la organización de carpetas, la incorporación de archivos
+mediante Git y la conservación de directorios mediante archivos de seguimiento.
+
+| Decisión | Justificación |
+|---|---|
+| Mantener separados los entregables | Permite identificar el material de cada entrega. |
+| Conservar src, configs y scripts | Contienen las implementaciones y configuraciones. |
+| Utilizar rutas relativas | Mantiene las referencias asociadas a la estructura del entregable. |
+| Revisar los archivos enlazados | Cada enlace requiere que exista su archivo de destino. |
+
+**Evidencia relacionada:** estructura de `Entregable 2/`.
+
+**Estado verificado:** el entregable contiene documentación, notebook,
+módulos Python, configuración y siete archivos MAT dentro de `data/raw/`.
+
+**Aclaración:** la bitácora original proponía mantener los datos fuera del
+repositorio. La revisión actual verifica que los siete MAT sí están publicados.
+
+---
+
+### IA-05. Incorporación del notebook mediante Git
+
+**Fecha:** no consignada en el registro original.
+
+**Propósito:** incorporar un archivo nuevo detectado como no rastreado.
+
+**Prompt registrado —síntesis—:**
+
+> Git muestra Prediccion_coeficientes.ipynb como untracked, indica que no hay
+> cambios preparados y responde Everything up-to-date al hacer push.
+
+**Respuesta resumida:**
+
+La IA explicó que el archivo debía añadirse al área de preparación,
+registrarse en un commit y publicarse mediante push.
+
+| Decisión | Justificación |
+|---|---|
+| Aceptar la secuencia add, commit y push | Permite registrar y publicar un archivo nuevo. |
+| Utilizar comillas en la ruta | La carpeta Entregable 2 contiene un espacio. |
+| Evitar el push forzado | El problema correspondía a un archivo todavía no registrado. |
+| Guardar el notebook después de ejecutarlo | Permite conservar sus resultados dentro del archivo. |
+
+**Comandos registrados:**
+
+```bash
+git add "Entregable 2/Prediccion_coeficientes.ipynb"
+git commit -m "Agregar notebook de prediccion de coeficientes"
+git push origin main
+```
+
+**Evidencia relacionada:** `Prediccion_coeficientes.ipynb`.
+
+**Estado verificado:** el archivo está publicado. Su ejecución y la publicación
+de sus resultados permanecen pendientes.
+
+---
+
+### IA-06. Revisión de formato y sustitución de imágenes
+
+**Fecha:** 5 de noviembre de 2026.
+
+**Asistente:** ChatGPT.
+
+**Propósito:** mejorar la presentación de la bitácora y reemplazar los enlaces
+a imágenes ausentes por información tabular.
+
+**Solicitud de revisión —síntesis—:**
+
+> Refinar el formato de la bitácora y reemplazar las imágenes que no cargan
+> en el README por cuadros o datos listos para copiar y pegar.
+
+**Trabajo realizado durante la revisión:**
+
+- Revisar los archivos publicados y las rutas de las imágenes.
+- Inspeccionar los metadatos y las matrices de los siete MAT.
+- Ejecutar el script de limpieza publicado.
+- Calcular estadísticas descriptivas y correlaciones de Spearman.
+- Revisar los tipos de celda y las salidas del notebook.
+- Preparar una bitácora uniforme y un README con tablas.
+
+| Decisión | Justificación |
+|---|---|
+| Renombrar BITACORA como BITACORA_IA.md | Permite visualizar su contenido como Markdown. |
+| Reemplazar las imágenes ausentes por tablas | Presenta resultados descriptivos sin depender de archivos gráficos externos. |
+| Utilizar los MAT publicados | Permite comprobar los valores incluidos. |
+| Registrar el entrenamiento como pendiente | No se publicaron salidas ejecutadas y debe revisarse la validación. |
+| Precisar la unidad de registro | Cada fila consolidada corresponde a un sensor y un ángulo. |
+
+**Resultados comprobados:**
+
+| Comprobación | Resultado |
+|---|---:|
+| Archivos MAT | 7 |
+| Sensores por archivo | 128 |
+| Muestras temporales por sensor y archivo | 9000 |
+| Registros consolidados sensor–ángulo | 896 |
+| Valores faltantes en las matrices Cp | 0 |
+| Valores infinitos en las matrices Cp | 0 |
+| Combinaciones sensor–ángulo duplicadas | 0 |
+| Geometrías representadas | 1 |
+
+**Estado:** contenidos documentales preparados para su incorporación
+al repositorio.
+
+## 5. Pendientes técnicos identificados
+
+| Pendiente | Motivo |
+|---|---|
+| Convertir los fragmentos Python del notebook en celdas de código | Actualmente todas sus celdas son Markdown. |
+| Adaptar el procesamiento general al formato de los MAT publicados | Los nombres y la organización de variables difieren del esquema genérico. |
+| Revisar la representación espacial | Los MAT incluyen dos coordenadas y un identificador de superficie; no contienen Z explícita. |
+| Definir la validación | La selección actual contiene una sola geometría. |
+| Ejecutar y guardar el entrenamiento | Se requieren resultados para completar las métricas e interpretabilidad. |
+| Verificar la bibliografía | Las referencias deben corresponder a fuentes comprobadas. |
+
+## 6. Declaración de uso de inteligencia artificial
+
+Según la bitácora original, Microsoft Copilot se utilizó como apoyo para
+el planteamiento, la organización del código, la elaboración del notebook
+y las instrucciones de publicación.
+
+ChatGPT se utilizó en esta revisión para inspeccionar el repositorio,
+comprobar los datos disponibles, reorganizar la bitácora y preparar
+las tablas del README.
+
+Las propuestas de IA se distinguen de los resultados efectivamente
+verificados. La responsabilidad sobre la ejecución, la validación,
+la interpretación y las conclusiones corresponde a los autores.
