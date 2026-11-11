@@ -1,0 +1,17 @@
+EXPLORADOR TA_GRUPO5 2.0.0
+
+ABRIR: doble clic en ABRIR_EXPLORADOR.html. No requiere servidor ni Internet.
+PUBLICAR: copiar docs/index.html a /docs de su repositorio y habilitar GitHub
+Pages en Settings > Pages > Deploy from a branch > rama elegida > /docs.
+Este generador no modifica ni publica automáticamente el repositorio remoto.
+
+Referencia de datos: ba0bb6b8a903dcca7464423764fabb4d1b49c69a
+Agentes: local
+Los CSV/JSON originales están en datos_fuente. manifest_fuentes.json conserva
+procedencia y huellas SHA-256. El informe de agentes usa evidencias verificadas.
+El modo local es determinista y no llama a un modelo de lenguaje.
+No se entrenan modelos ni se infieren ángulos nuevos. Una sola geometría.
+
+REGENERAR:
+python generar_explorador_TA_GRUPO5_PRO.py --salida OTRA_CARPETA --abrir
+--forzar solo acepta carpetas previamente administradas por este generador.

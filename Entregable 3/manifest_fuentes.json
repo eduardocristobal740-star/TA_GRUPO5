@@ -1,0 +1,95 @@
+{
+  "generator": "ta-grupo5-explorer",
+  "version": "2.0.0",
+  "repository": "https://github.com/eduardocristobal740-star/TA_GRUPO5",
+  "ref": "ba0bb6b8a903dcca7464423764fabb4d1b49c69a",
+  "source_mode": "embedded",
+  "agents_mode": "local",
+  "verification": {
+    "measured_rows": 896,
+    "cv_predictions": 71680,
+    "model_target_feature_combinations": 80,
+    "verified_folds": 560,
+    "sensors": 128,
+    "angles": 7,
+    "observations_match_measured_table": true,
+    "all_fold_metrics_recomputed": true,
+    "all_summaries_recomputed": true,
+    "auxiliary_tables_checked": true,
+    "numeric_export_decimals": 6
+  },
+  "sources": [
+    {
+      "name": "rows",
+      "filename": "tpu_cp_table.csv",
+      "repo_path": "Entregable 3/tpu-cp-ml/data/processed/tpu_cp_table.csv",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/data/processed/tpu_cp_table.csv",
+      "loaded_from": "instantánea incluida",
+      "bytes": 92627,
+      "sha256": "bd872afb252ee1117951acf5eadd82b1bed02a6d2d8355c3054bd5862c404520"
+    },
+    {
+      "name": "summary",
+      "filename": "resumen_modelos.csv",
+      "repo_path": "Entregable 3/tpu-cp-ml/reports/tables/resumen_modelos.csv",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/reports/tables/resumen_modelos.csv",
+      "loaded_from": "instantánea incluida",
+      "bytes": 20101,
+      "sha256": "d742591b972b67b17ea54b19df99abd1dc3b8845c03c30c9aa6660e7b8f9e633"
+    },
+    {
+      "name": "predictions",
+      "filename": "predicciones_cv.csv",
+      "repo_path": "Entregable 3/tpu-cp-ml/reports/tables/predicciones_cv.csv",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/reports/tables/predicciones_cv.csv",
+      "loaded_from": "instantánea incluida",
+      "bytes": 5646716,
+      "sha256": "6022c2f05c9e14646abf8af75d4c16eb0ca96edb6359432af846fa58bedeb17f"
+    },
+    {
+      "name": "folds",
+      "filename": "metricas_por_pliegue.csv",
+      "repo_path": "Entregable 3/tpu-cp-ml/reports/tables/metricas_por_pliegue.csv",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/reports/tables/metricas_por_pliegue.csv",
+      "loaded_from": "instantánea incluida",
+      "bytes": 86970,
+      "sha256": "b59abfead17775e665626294f586bce855096da8478c6fb37ead86636d49a194"
+    },
+    {
+      "name": "importance",
+      "filename": "importancia_permutacion_holdout.csv",
+      "repo_path": "Entregable 3/tpu-cp-ml/reports/tables/importancia_permutacion_holdout.csv",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/reports/tables/importancia_permutacion_holdout.csv",
+      "loaded_from": "instantánea incluida",
+      "bytes": 2357,
+      "sha256": "0e3eb284321d4a2b299a7f4aa682a8ac3ec50e8c10d211d3352f40ce10bf7da1"
+    },
+    {
+      "name": "stability",
+      "filename": "estabilidad_resumen.csv",
+      "repo_path": "Entregable 3/tpu-cp-ml/reports/tables/estabilidad_resumen.csv",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/reports/tables/estabilidad_resumen.csv",
+      "loaded_from": "instantánea incluida",
+      "bytes": 1261,
+      "sha256": "97abbabed472904af1678899188b69ec7ad5e436bc211cbd6e06f57665677313"
+    },
+    {
+      "name": "best",
+      "filename": "mejor_por_objetivo.csv",
+      "repo_path": "Entregable 3/tpu-cp-ml/reports/tables/mejor_por_objetivo.csv",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/reports/tables/mejor_por_objetivo.csv",
+      "loaded_from": "instantánea incluida",
+      "bytes": 1411,
+      "sha256": "398b4b98a15f29bb80d7e71ac88262d284d42382d74939a6f610f78960f0fc04"
+    },
+    {
+      "name": "quality",
+      "filename": "control_calidad.json",
+      "repo_path": "Entregable 3/tpu-cp-ml/reports/tables/control_calidad.json",
+      "url": "https://raw.githubusercontent.com/eduardocristobal740-star/TA_GRUPO5/ba0bb6b8a903dcca7464423764fabb4d1b49c69a/Entregable%203/tpu-cp-ml/reports/tables/control_calidad.json",
+      "loaded_from": "instantánea incluida",
+      "bytes": 594,
+      "sha256": "0ca5269885ca3262268ac578a9750246bd77728fca03e7aec56788b33a811600"
+    }
+  ]
+}
