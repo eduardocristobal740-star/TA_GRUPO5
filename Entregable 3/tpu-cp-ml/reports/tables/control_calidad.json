@@ -1,0 +1,35 @@
+{
+  "archivos": 7,
+  "valores_nan": 0,
+  "valores_inf": 0,
+  "angulo_nombre_distinto": [],
+  "geometrias_distintas": 1,
+  "geometria": {
+    "Building_height": 4.0,
+    "Building_breadth": 16.0,
+    "Building_depth": 16.0,
+    "Roof_pitch": 5.0,
+    "Sample_frequency": 15.0,
+    "Sample_period": 600.0
+  },
+  "filas": 896,
+  "sensores_por_angulo": {
+    "0.0": 128,
+    "15.0": 128,
+    "30.0": 128,
+    "45.0": 128,
+    "60.0": 128,
+    "75.0": 128,
+    "90.0": 128
+  },
+  "duplicados_sensor_angulo": 0,
+  "angulos": [
+    0.0,
+    15.0,
+    30.0,
+    45.0,
+    60.0,
+    75.0,
+    90.0
+  ]
+}
